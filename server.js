@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const User = require('./models/User');
+const validateEmail = require('./middleware/validateEmail');
 
 dotenv.config();
 
@@ -21,14 +22,25 @@ const generateToken = (id) => {
 };
 
 // Ruta de registro
-app.post('/api/register', async (req, res) => {
-  const { email, password } = req.body;
+app.post('/api/register', validateEmail, async (req, res) => {
+  const { email, password, phonecell, condition, date_register, last_time } = req.body;
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({
+      email,
+      password,
+      phonecell,
+      condition,
+      date_register,
+      last_time
+    });
     res.status(201).json({
       _id: user._id,
       email: user.email,
-      token: generateToken(user._id),
+      phonecell: user.phonecell,
+      condition: user.condition,
+      date_register: user.date_register,
+      last_time: user.last_time,
+      token: generateToken(user._id)
     });
   } catch (error) {
     res.status(400).json({ message: 'Error al registrar el usuario' });
@@ -50,7 +62,11 @@ app.post('/api/login', async (req, res) => {
     res.json({
       _id: user._id,
       email: user.email,
-      token: generateToken(user._id),
+      phonecell: user.phonecell,
+      condition: user.condition,
+      date_register: user.date_register,
+      last_time: user.last_time,
+      token: generateToken(user._id)
     });
   } catch (error) {
     res.status(400).json({ message: 'Error al iniciar sesión' });
@@ -65,6 +81,50 @@ app.post('/api/validate-token', (req, res) => {
     res.json({ valid: true, userId: decoded.id });
   } catch (error) {
     res.status(401).json({ valid: false, message: 'Token inválido' });
+  }
+});
+
+// Ruta para actualizar last_time
+app.put('/api/update-last-time/:id', async (req, res) => {
+  const { id } = req.params;
+  const { last_time } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(id, { last_time }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json({
+      _id: user._id,
+      email: user.email,
+      phonecell: user.phonecell,
+      condition: user.condition,
+      date_register: user.date_register,
+      last_time: user.last_time
+    });
+  } catch (error) {
+    res.status(400).json({ message: 'Error al actualizar el usuario' });
+  }
+});
+
+// Ruta para actualizar condition
+app.put('/api/update-condition/:id', async (req, res) => {
+  const { id } = req.params;
+  const { condition } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(id, { condition }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json({
+      _id: user._id,
+      email: user.email,
+      phonecell: user.phonecell,
+      condition: user.condition,
+      date_register: user.date_register,
+      last_time: user.last_time
+    });
+  } catch (error) {
+    res.status(400).json({ message: 'Error al actualizar el usuario' });
   }
 });
 
