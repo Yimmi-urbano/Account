@@ -53,23 +53,44 @@ app.post('/api/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({
+        status: "error",
+        message: "Usuario no encontrado",
+        data: null
+      });
     }
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Contraseña incorrecta' });
+      return res.status(401).json({
+        status: "error",
+        message: "Contraseña incorrecta",
+        data: null
+      });
     }
     res.json({
-      _id: user._id,
-      email: user.email,
-      phonecell: user.phonecell,
-      condition: user.condition,
-      date_register: user.date_register,
-      last_time: user.last_time,
-      token: generateToken(user._id)
+      status: "success",
+      message: "Inicio de sesión exitoso",
+      data: {
+        user: {
+          _id: user._id,
+          email: user.email,
+          phonecell: user.phonecell,
+          condition: user.condition,
+          date_register: user.date_register,
+          last_time: user.last_time
+        },
+        token: {
+          value: generateToken(user._id),
+          expiry: new Date(Date.now() + 30*24*60*60*1000) // 30 días a partir de ahora
+        }
+      }
     });
   } catch (error) {
-    res.status(400).json({ message: 'Error al iniciar sesión' });
+    res.status(400).json({
+      status: "error",
+      message: "Error al iniciar sesión",
+      data: null
+    });
   }
 });
 
