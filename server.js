@@ -53,7 +53,7 @@ app.post('/api/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({
+      return res.status(200).json({
         status: "error",
         message: "Usuario no encontrado",
         data: null
@@ -61,7 +61,7 @@ app.post('/api/login', async (req, res) => {
     }
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(401).json({
+      return res.status(200).json({
         status: "error",
         message: "Contraseña incorrecta",
         data: null
