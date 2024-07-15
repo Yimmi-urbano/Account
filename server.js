@@ -77,6 +77,7 @@ app.post('/api/login', async (req, res) => {
           phonecell: user.phonecell,
           condition: user.condition,
           date_register: user.date_register,
+          components: user.components,
           last_time: user.last_time
         },
         token: {
