@@ -120,6 +120,7 @@ app.put('/api/update-last-time/:id', async (req, res) => {
       email: user.email,
       phonecell: user.phonecell,
       condition: user.condition,
+      components: user.components,
       date_register: user.date_register,
       last_time: user.last_time
     });
@@ -150,5 +151,5 @@ app.put('/api/update-condition/:id', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3200;
 app.listen(PORT, () => console.log(`Servidor de autenticación corriendo en el puerto ${PORT}`));

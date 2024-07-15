@@ -7,11 +7,18 @@ const ConditionSchema = new mongoose.Schema({
   msg: { type: String, required: true }
 });
 
+const ComponentsSchema = new mongoose.Schema({
+   name_component: { type: String, required: true },
+   status: { type: Boolean, required: true }
+});
+
+
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   phonecell: { type: String, required: true },
   condition: { type: ConditionSchema, required: true },
+  components: { type: ComponentsSchema, required: true },
   date_register: { type: String, required: true },
   last_time: { type: String, required: true }
 });
