@@ -9,7 +9,7 @@ const ConditionSchema = new mongoose.Schema({
 
 const ComponentsSchema = new mongoose.Schema({
    name_component: { type: String, required: true },
-   status: { type: Boolean, required: true }
+   status: { type: String, required: true }
 });
 
 
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phonecell: { type: String, required: true },
   condition: { type: ConditionSchema, required: true },
-  components: { type: ComponentsSchema, required: true },
+  components: { type: [ComponentsSchema], required: true },
   date_register: { type: String, required: true },
   last_time: { type: String, required: true }
 });
