@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 
 // Ruta de registro

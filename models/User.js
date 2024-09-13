@@ -17,10 +17,10 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   phonecell: { type: String, required: true },
-  condition: { type: ConditionSchema, required: true },
-  components: { type: [ComponentsSchema], required: true },
-  date_register: { type: String, required: true },
-  last_time: { type: String, required: true }
+  condition: { type: ConditionSchema, required: false },
+  components: { type: [ComponentsSchema], required: false },
+  date_register: { type: String, required: false },
+  last_time: { type: String, required: false }
 });
 
 UserSchema.pre('save', async function(next) {
