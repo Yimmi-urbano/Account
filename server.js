@@ -55,7 +55,7 @@ app.post('/api/login', async (req, res) => {
     if (!user) {
       return res.status(200).json({
         status: "error",
-        message: "Usuario no encontrado",
+        message: "Los datos ingresados son incorrectos.",
         data: null
       });
     }
@@ -63,7 +63,7 @@ app.post('/api/login', async (req, res) => {
     if (!isMatch) {
       return res.status(200).json({
         status: "error",
-        message: "Contraseña incorrecta",
+        message: "Los datos ingresados son incorrectos.",
         data: null
       });
     }
