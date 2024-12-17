@@ -23,7 +23,7 @@ const generateToken = (id) => {
 
 // Ruta de registro
 app.post('/api/register', validateEmail, async (req, res) => {
-  const { email, password, phonecell, condition, date_register, last_time } = req.body;
+  const { email, password, phonecell, condition, date_register, last_time, components } = req.body;
   try {
     const user = await User.create({
       email,
@@ -31,7 +31,8 @@ app.post('/api/register', validateEmail, async (req, res) => {
       phonecell,
       condition,
       date_register,
-      last_time
+      last_time,
+      components
     });
     res.status(201).json({
       _id: user._id,
